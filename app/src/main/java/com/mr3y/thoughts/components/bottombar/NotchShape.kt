@@ -73,7 +73,7 @@ class NotchShape(
                     sweepAngleDegrees = 90f,
                     forceMoveTo = false
                 ) else arcTo(
-                    Rect(0f,0f, -bottomEnd, bottomEnd),
+                    Rect(0f, 0f, -bottomEnd, bottomEnd),
                     startAngleDegrees = 180f,
                     sweepAngleDegrees = 90f,
                     forceMoveTo = false
@@ -100,7 +100,32 @@ class NotchShape(
         topEnd: CornerSize,
         bottomEnd: CornerSize,
         bottomStart: CornerSize
-    ): CornerBasedShape {
-        TODO("Not yet implemented")
+    ): CornerBasedShape = throw NotImplementedError("copy() fun isn't supported yet.")
+
+    // TODO: replace those functions with a compiler plugin to avoid boilerplate
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is NotchShape) return false
+
+        if (topStart != other.topStart) return false
+        if (topEnd != other.topEnd) return false
+        if (bottomEnd != other.bottomEnd) return false
+        if (bottomStart != other.bottomStart) return false
+        // There is actually another case for inequality, when two shapes differ in width
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = topStart.hashCode()
+        result = 31 * result + topEnd.hashCode()
+        result = 31 * result + bottomEnd.hashCode()
+        result = 31 * result + bottomStart.hashCode()
+        return result
+    }
+
+    override fun toString(): String {
+        return "NotchShape(topStart = $topStart, topEnd = $topEnd, bottomEnd = " +
+            "$bottomEnd, bottomStart = $bottomStart)"
     }
 }
