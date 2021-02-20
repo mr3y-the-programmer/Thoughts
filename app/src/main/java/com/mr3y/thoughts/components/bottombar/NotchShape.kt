@@ -25,43 +25,67 @@ class NotchShape(
         bottomStart: Float,
         layoutDirection: LayoutDirection
     ): Outline {
-        // TODO: respect latyoutDirection in your implementation
         val width = size.width
         val halfWidth = width / 2
         val circleRadius = halfWidth * 1 / 3
         return Outline.Generic(
             Path().apply {
                 // moveTo(0f, topStart)
-                arcTo(
+                if (layoutDirection == LayoutDirection.Ltr) arcTo(
                     Rect(0f, 0f, right = topStart, bottom = topStart),
                     startAngleDegrees = 180f,
                     sweepAngleDegrees = 90f,
                     forceMoveTo = false
+                ) else arcTo(
+                    Rect(left = topStart, 0f, 0f, bottom = topStart),
+                    startAngleDegrees = 0f,
+                    sweepAngleDegrees = 90f,
+                    forceMoveTo = false
                 )
                 lineTo(halfWidth - topStart - circleRadius, 0f)
-                arcTo(
+                if (layoutDirection == LayoutDirection.Ltr) arcTo(
                     Rect(0f, 0f, circleRadius * 2, circleRadius),
                     startAngleDegrees = 180f,
                     sweepAngleDegrees = 180f,
                     forceMoveTo = false
+                ) else arcTo(
+                    Rect(circleRadius * 2, 0f, 0f, circleRadius),
+                    startAngleDegrees = 0f,
+                    sweepAngleDegrees = 180f,
+                    forceMoveTo = false
                 )
                 lineTo((halfWidth - circleRadius) - topEnd, 0f)
-                arcTo(
+                if (layoutDirection == LayoutDirection.Ltr) arcTo(
                     Rect(0f, 0f, right = topEnd, bottom = topEnd),
+                    startAngleDegrees = 270f,
+                    sweepAngleDegrees = 90f,
+                    forceMoveTo = false
+                ) else arcTo(
+                    Rect(topEnd, 0f, 0f, topEnd),
                     startAngleDegrees = 270f,
                     sweepAngleDegrees = 90f,
                     forceMoveTo = false
                 )
                 lineTo(0f, (size.height - topEnd) - bottomEnd)
-                arcTo(
+                if (layoutDirection == LayoutDirection.Ltr) arcTo(
                     Rect(-bottomEnd, 0f, 0f, bottomEnd),
                     startAngleDegrees = 0f,
                     sweepAngleDegrees = 90f,
                     forceMoveTo = false
+                ) else arcTo(
+                    Rect(0f,0f, -bottomEnd, bottomEnd),
+                    startAngleDegrees = 180f,
+                    sweepAngleDegrees = 90f,
+                    forceMoveTo = false
                 )
                 lineTo(-(width - bottomEnd) + bottomStart, 0f)
-                arcTo(
+                if (layoutDirection == LayoutDirection.Ltr) arcTo(
                     Rect(-bottomStart, -bottomStart, 0f, 0f),
+                    startAngleDegrees = 90f,
+                    sweepAngleDegrees = 90f,
+                    forceMoveTo = false
+                ) else arcTo(
+                    Rect(0f, top = -bottomStart, right = -bottomStart, 0f),
                     startAngleDegrees = 90f,
                     sweepAngleDegrees = 90f,
                     forceMoveTo = false
