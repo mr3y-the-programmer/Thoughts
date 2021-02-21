@@ -59,6 +59,7 @@ dependencies {
     implementation(Deps.Compose.Material)
     implementation(Deps.Compose.Tooling)
     implementation(Deps.Compose.Activity_Compose)
+    implementation(Deps.Compose.ConstraintLayout_Compose)
     // to use Layout Inspector with jetpack compose
     debugImplementation(Deps.Kotlin.Reflect)
     testImplementation(Deps.Testing.JUNIT)
