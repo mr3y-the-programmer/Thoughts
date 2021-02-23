@@ -14,7 +14,8 @@ import androidx.compose.ui.unit.LayoutDirection
  * all corners, in the future it maybe modified to allow each corner to use a different shape
  */
 class NotchShape(
-    corners: CornerBasedShape
+    corners: CornerBasedShape,
+    private val notchRadius: Float
 ) : CornerBasedShape(corners.topStart, corners.topEnd, corners.bottomEnd, corners.bottomStart) {
 
     override fun createOutline(
@@ -27,7 +28,7 @@ class NotchShape(
     ): Outline {
         val width = size.width
         val halfWidth = width / 2
-        val circleRadius = halfWidth * 1 / 3
+        val circleRadius = notchRadius.coerceIn(halfWidth * 1 / 4, halfWidth) // quick check
         return Outline.Generic(
             Path().apply {
                 // moveTo(0f, topStart)
@@ -111,7 +112,7 @@ class NotchShape(
         if (topEnd != other.topEnd) return false
         if (bottomEnd != other.bottomEnd) return false
         if (bottomStart != other.bottomStart) return false
-        // There is actually another case for inequality, when two shapes differ in width
+        if (notchRadius != other.notchRadius) return false
 
         return true
     }
@@ -121,11 +122,12 @@ class NotchShape(
         result = 31 * result + topEnd.hashCode()
         result = 31 * result + bottomEnd.hashCode()
         result = 31 * result + bottomStart.hashCode()
+        result = 31 * result + notchRadius.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return "NotchShape(topStart = $topStart, topEnd = $topEnd, bottomEnd = " +
-            "$bottomEnd, bottomStart = $bottomStart)"
+        return "NotchShape(topStart = $topStart, topEnd = $topEnd, notchRadius = $notchRadius," +
+            " bottomEnd = $bottomEnd, bottomStart = $bottomStart)"
     }
 }
