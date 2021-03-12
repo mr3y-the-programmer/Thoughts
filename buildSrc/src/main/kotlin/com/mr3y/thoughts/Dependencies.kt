@@ -22,7 +22,7 @@ object Dependencies {
         const val UI = "androidx.compose.ui:ui:${Versions.Compose}"
         const val Material = "androidx.compose.material:material:${Versions.Compose}"
         const val Tooling = "androidx.compose.ui:ui-tooling:${Versions.Compose}"
-        const val Activity_Compose = "androidx.activity:activity-compose:${Versions.Compose}"
+        const val Activity_Compose = "androidx.activity:activity-compose:1.3.0-alpha03"
         const val ConstraintLayout_Compose = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha02"
     }
 
