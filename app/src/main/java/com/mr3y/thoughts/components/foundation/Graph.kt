@@ -11,12 +11,17 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import android.graphics.Paint as nativePaint
 
 const val DefaultNumOfRows = 4
 const val DefaultNumOfCellsInOneRow = 8
@@ -42,6 +47,13 @@ fun Graph(
                 }
                 val cellSize = Size(size.width / DefaultNumOfCellsInOneRow, size.height / DefaultNumOfRows)
                 onDrawBehind {
+                    val paint = Paint().asFrameworkPaint().apply {
+                        isAntiAlias = true
+                        strokeWidth = 1f
+                        strokeCap = nativePaint.Cap.ROUND
+                        color = Color.Yellow.toArgb()
+                        textSize = 32f
+                    }
                     for (i in 0 until DefaultNumOfRows) {
                         for (j in 0 until DefaultNumOfCellsInOneRow) {
                             drawRect(
@@ -50,6 +62,14 @@ fun Graph(
                                 topLeft = Offset(x = j * cellSize.width, y = i * cellSize.height),
                                 size = cellSize,
                             )
+                            if (i == DefaultNumOfRows - 1) {
+                                drawIntoCanvas {
+                                    it.nativeCanvas.drawText("$j", j * cellSize.width, size.height, paint)
+                                }
+                            }
+                        }
+                        drawIntoCanvas {
+                            it.nativeCanvas.drawText("${DefaultNumOfRows - i}", 0f, i * cellSize.height, paint)
                         }
                     }
                     drawPoints(
