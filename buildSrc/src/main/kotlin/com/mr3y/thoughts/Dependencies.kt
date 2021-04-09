@@ -24,6 +24,7 @@ object Dependencies {
         const val Tooling = "androidx.compose.ui:ui-tooling:${Versions.Compose}"
         const val Activity_Compose = "androidx.activity:activity-compose:1.3.0-alpha03"
         const val ConstraintLayout_Compose = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha02"
+        const val Test = "androidx.compose.ui:ui-test-junit4:${Versions.Compose}"
     }
 
     object Testing {

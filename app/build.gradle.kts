@@ -46,6 +46,12 @@ android {
         compose = true
     }
 
+    packagingOptions {
+        resources {
+            excludes += "META-INF/AL2.0"
+        }
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.Compose
     }
@@ -64,6 +70,7 @@ dependencies {
     // to use Layout Inspector with jetpack compose
     debugImplementation(Deps.Kotlin.Reflect)
     testImplementation(Deps.Testing.JUNIT)
+    androidTestImplementation(Deps.Compose.Test)
     androidTestImplementation(Deps.Testing.AndroidX.JUNIT)
     androidTestImplementation(Deps.Testing.AndroidX.Espresso)
 }
