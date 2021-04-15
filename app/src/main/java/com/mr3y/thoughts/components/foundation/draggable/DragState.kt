@@ -1,4 +1,4 @@
-package com.mr3y.thoughts.components.foundation
+package com.mr3y.thoughts.components.foundation.draggable
 
 import androidx.annotation.IntRange
 import androidx.compose.runtime.Composable
@@ -14,42 +14,42 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlin.math.roundToInt
 
 @Composable
-fun rememberDraggableColumnState(@IntRange(from = 0) itemsNum: Int): DraggableColumnState {
-    return remember { DraggableColumnState(itemsNum) }
+fun rememberDragState(@IntRange(from = 0) itemsNum: Int): DragState {
+    return remember { DragState(itemsNum) }
 }
 
 @Immutable
-internal data class ColumnItem(val itemIndex: Int, val translationY: Int)
+internal data class Item(val itemIndex: Int, val translation: Int)
 
 /**
- * manages [DraggableColumn] Items dragging state
+ * manages [DraggableColumn], [DraggableRow] Items dragging state
  */
-class DraggableColumnState(private val itemsNum: Int) {
+class DragState(private val itemsNum: Int) {
     var itemsCount by mutableStateOf(itemsNum)
         private set
 
-    internal var itemHeight by mutableStateOf(0)
+    internal var itemSize by mutableStateOf(0)
     private var previousSteps by mutableStateOf(0)
 
-    private val _lastDraggedColumnItem: MutableState<ColumnItem?> = mutableStateOf(null)
-    internal val lastDraggedColumnItem: State<ColumnItem?>
-        get() = _lastDraggedColumnItem
+    private val _lastDraggedItem: MutableState<Item?> = mutableStateOf(null)
+    internal val lastDraggedItem: State<Item?>
+        get() = _lastDraggedItem
 
     // items which need to be repositioned due to movement of dragged item
-    private val _draggingAffectedItems = mutableStateListOf<ColumnItem>()
-    internal val draggingAffectedColumnItems: SnapshotStateList<ColumnItem>
+    private val _draggingAffectedItems = mutableStateListOf<Item>()
+    internal val draggingAffectedItems: SnapshotStateList<Item>
         get() = _draggingAffectedItems
 
     fun drag(item: Int, to: Float) {
         // calculates how many steps should the dragged item be shifted.
         // For example, if it equals -1 so, item should shift place with the previous item
         // if it is 1, item should shift place with next item
-        val steps = (((to + itemHeight).roundToInt() / itemHeight) - 1)
+        val steps = (((to + itemSize).roundToInt() / itemSize) - 1)
         val deltaSteps = steps - previousSteps
-        _lastDraggedColumnItem.value = ColumnItem(itemIndex = item, steps * itemHeight)
+        _lastDraggedItem.value = Item(itemIndex = item, steps * itemSize)
         for (i in if (steps < 0) -1 downTo steps else 1..steps) {
             _draggingAffectedItems.plusAssign(
-                ColumnItem(itemIndex = item + i, translationY = (if (steps < 0) 1 else -1) * itemHeight)
+                Item(itemIndex = item + i, translation = (if (steps < 0) 1 else -1) * itemSize)
             )
         }
         previousSteps = steps
@@ -60,6 +60,6 @@ class DraggableColumnState(private val itemsNum: Int) {
 
     fun clearDragging() {
         _draggingAffectedItems.clear()
-        _lastDraggedColumnItem.value = null
+        _lastDraggedItem.value = null
     }
 }

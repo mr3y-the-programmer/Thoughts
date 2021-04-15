@@ -18,8 +18,8 @@ import androidx.compose.ui.test.performGesture
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.mr3y.thoughts.components.foundation.DraggableRow
-import com.mr3y.thoughts.components.foundation.rememberDraggableRowState
+import com.mr3y.thoughts.components.foundation.draggable.DraggableRow
+import com.mr3y.thoughts.components.foundation.draggable.rememberDragState
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,7 +34,7 @@ class DraggableRowTest {
     @Before
     fun setUp() {
         composeTestRule.setContent {
-            val state = rememberDraggableRowState(itemsNum = 20)
+            val state = rememberDragState(itemsNum = 20)
             DraggableRow(
                 state = state,
                 itemSpacing = 24.dp,
