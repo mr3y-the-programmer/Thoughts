@@ -13,10 +13,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 /**
  * Simulate Stacked pages effect
@@ -33,7 +34,9 @@ import kotlinx.coroutines.delay
 fun Stack() {
     val generator = remember { PagesGenerator() }
     val pages = remember { generator.pages }
-    var visible by remember { mutableStateOf(false) }
+    val pagesVisibility by remember {
+        derivedStateOf { Array(pages) { index -> index != pages - 1 } }
+    }
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -42,13 +45,20 @@ fun Stack() {
     ) {
         // generate new page each 1 second as long as our composable hasn't left the tree
         LaunchedEffect(true) {
-            delay(1000)
-            generator.addNewPage()
-            visible = !visible
+            while (isActive) {
+                launch {
+                    delay(1000)
+                    generator.addNewPage()
+                }
+                launch {
+                    delay(990)
+                    pagesVisibility[pagesVisibility.lastIndex] = true
+                }
+            }
         }
         repeat(pages) { index ->
             AnimatedVisibility(
-                visible = visible,
+                visible = pagesVisibility[index],
                 enter = slideInHorizontally({ -(it / 8) * index }),
                 exit = slideOutHorizontally({ -(it / 8) * index })
             ) {
