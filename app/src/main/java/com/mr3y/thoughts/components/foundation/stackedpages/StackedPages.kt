@@ -1,24 +1,23 @@
 package com.mr3y.thoughts.components.foundation.stackedpages
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -34,9 +33,6 @@ import kotlinx.coroutines.launch
 fun Stack() {
     val generator = remember { PagesGenerator() }
     val pages = remember { generator.pages }
-    val pagesVisibility by remember {
-        derivedStateOf { Array(pages) { index -> index != pages - 1 } }
-    }
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -50,23 +46,32 @@ fun Stack() {
                     delay(1000)
                     generator.addNewPage()
                 }
-                launch {
-                    delay(990)
-                    pagesVisibility[pagesVisibility.lastIndex] = true
-                }
             }
         }
+        val pageModifier = { index: Float ->
+            Modifier
+                .fillMaxSize(0.5f)
+                .zIndex(index)
+                .graphicsLayer(scaleY = 1f + (index * 0.1f))
+        }
         repeat(pages) { index ->
-            AnimatedVisibility(
-                visible = pagesVisibility[index],
-                enter = slideInHorizontally({ -(it / 8) * index }),
-                exit = slideOutHorizontally({ -(it / 8) * index })
-            ) {
+            if (index == pages - 1) {
+                val rootWidthInPixel = with(LocalDensity.current) {
+                    maxWidth.toPx()
+                }
+                val baseOffset = -(rootWidthInPixel / 8)
+                val animatable = Animatable((index + 1) * baseOffset)
+                LaunchedEffect(index) {
+                    animatable.animateTo(baseOffset * index)
+                }
                 Page(
-                    modifier = Modifier
-                        .fillMaxSize(0.5f)
+                    modifier = pageModifier(index.toFloat())
+                        .offset(x = animatable.value.dp)
+                )
+            } else {
+                Page(
+                    modifier = pageModifier(index.toFloat())
                         .offset(x = -(maxWidth / 8) * index)
-                        .zIndex(index.toFloat())
                 )
             }
         }
@@ -76,7 +81,10 @@ fun Stack() {
 @Composable
 fun Page(modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.DarkGray.copy(alpha = 0.15f))
+            .padding(end = 4.dp),
         shape = RoundedCornerShape(16.dp),
         backgroundColor = Color.White,
         contentColor = Color.Black,
