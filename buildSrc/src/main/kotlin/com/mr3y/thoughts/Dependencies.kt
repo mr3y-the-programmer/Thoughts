@@ -2,7 +2,7 @@ package com.mr3y.thoughts
 
 object Versions {
     const val Compose = "1.0.0-beta06"
-    const val Kotlin = "1.4.30"
+    const val Kotlin = "1.4.32"
 }
 
 object Dependencies {
