@@ -2,20 +2,11 @@
 My playground to play around with Jetpack compose
 
 ## Demo
-[`Graph.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/Graph.kt)
-
-![Graph Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/Graph.PNG)
-
-Telegram-like Reveal Effect on toggling theme
-[`CircularRevealEffect.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/circularreveal/CircularRevealEffect.kt)
-
-![Circular Reveal Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/circularreveal.gif)
+| [`Graph.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/Graph.kt) | Telegram-like Reveal Effect on toggling theme, see [`CircularRevealEffect.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/circularreveal/CircularRevealEffect.kt) | [`Stairs.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/stairs/Stairs.kt) |
+| :--- | :---: | ---: |
+| ![Graph Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/Graph.PNG) | ![Circular Reveal Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/circularreveal.gif) | ![Stairs Effect Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/stairs.gif) |
 
 *Note: the screen recorder I'm currently using slows down the rendering, hence it drops some frames and you see janky animation, but in reality it is much smoother than that & even further optimizations can be applied. anyway I'll try to provide updated gif soon*
-
-[`Stairs.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/stairs/Stairs.kt)
-
-![Stairs Effect Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/stairs.gif)
 
 ### WIP
 Also, there is a Work-in-progress DraggableColumn/Row  [`DraggableColumn.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/draggable/DraggableColumn.kt)
@@ -23,7 +14,7 @@ Also, there is a Work-in-progress DraggableColumn/Row  [`DraggableColumn.kt`](ht
 
 Demo of [`DraggableColumn.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/draggable/DraggableColumn.kt)'s API
 
-```
+```kotlin
 @Preview(widthDp = 360, heightDp = 640)
 @Composable
 fun DraggableColumnDemo() {
