@@ -6,8 +6,6 @@ My playground to play around with Jetpack compose
 | :--- | :---: | ---: |
 | ![Graph Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/Graph.PNG) | ![Circular Reveal Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/circularreveal.gif) | ![Stairs Effect Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/stairs.gif) |
 
-*Note: the screen recorder I'm currently using slows down the rendering, hence it drops some frames and you see janky animation, but in reality it is much smoother than that & even further optimizations can be applied. anyway I'll try to provide updated gif soon*
-
 ### WIP
 Also, there is a Work-in-progress DraggableColumn/Row  [`DraggableColumn.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/draggable/DraggableColumn.kt)
 [`DraggableRow.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/draggable/DraggableRow.kt) respectively.
