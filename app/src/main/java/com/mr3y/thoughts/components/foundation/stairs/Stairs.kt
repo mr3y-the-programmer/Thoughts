@@ -10,7 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,20 +36,19 @@ fun Stairs() {
             .rotate(90f),
         contentAlignment = Alignment.Center
     ) {
-        val stepsNum = remember { mutableStateOf(1) }
+        val stepOffset = { index: Int ->
+            val baseOffset = (-maxWidth / 16)
+            baseOffset * 2 * index
+        }
+        // initialize state list with 1 step by default
+        val steps = remember { mutableStateListOf(Step(stepOffset(0))) }
 
         // generate new step each 1 second as long as our composable hasn't left the tree
         LaunchedEffect(true) {
-            while (isActive && stepsNum.value < 9) {
+            while (isActive && steps.size < 9) {
                 delay(1000)
-                stepsNum.value++
+                steps.add(Step(stepOffset(steps.indexOfLast { true } + 1)))
             }
-        }
-
-        val steps = buildSteps(stepsNum.value) { index ->
-            val baseOffset = (-maxWidth / 16)
-            val normalOffset = baseOffset * 2 * index
-            if (index == stepsNum.value - 1) Step(normalOffset) else Step(normalOffset)
         }
 
         steps.forEachIndexed { index, step ->
@@ -62,14 +61,6 @@ fun Stairs() {
             )
         }
     }
-}
-
-private fun buildSteps(count: Int, factory: (index: Int) -> Step): List<Step> {
-    val steps = mutableListOf<Step>()
-    repeat(count) { index ->
-        steps.add(factory(index))
-    }
-    return steps
 }
 
 data class Step(val offsetX: Dp)
