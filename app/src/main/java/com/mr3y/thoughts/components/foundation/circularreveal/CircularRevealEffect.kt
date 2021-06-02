@@ -3,12 +3,12 @@ package com.mr3y.thoughts.components.foundation.circularreveal
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Switch
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +25,30 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mr3y.thoughts.ui.theme.LocalTheme
+import com.mr3y.thoughts.ui.theme.ThoughtsTheme
 import kotlin.math.hypot
+
+@Composable
+fun CircularRevealScreen() {
+    val theme = LocalTheme.current
+    var isLight by remember { mutableStateOf(theme == ThoughtsTheme.lightPalette) }
+    CircularRevealLayout(
+        modifier = Modifier.fillMaxSize(),
+        isLight = isLight
+    ) {
+        Switch(
+            checked = !isLight,
+            modifier = Modifier
+                .size(72.dp, 48.dp)
+                .semantics {
+                    contentDescription =
+                        if (isLight) "Switch to dark theme" else "Switch to light theme"
+                },
+            onCheckedChange = { isLight = !isLight }
+        )
+    }
+}
 
 /**
  * A layout which clips out its content with a circular reveal effect
@@ -34,10 +57,10 @@ import kotlin.math.hypot
  */
 @Composable
 fun CircularRevealLayout(
+    isLight: Boolean,
     modifier: Modifier = Modifier,
-    isLightTheme: Boolean = !isSystemInDarkTheme()
+    content: @Composable () -> Unit
 ) {
-    var isLight by remember { mutableStateOf(isLightTheme) }
     var radius by remember { mutableStateOf(0f) }
     Box(
         modifier = modifier
@@ -52,16 +75,9 @@ fun CircularRevealLayout(
             },
         contentAlignment = Alignment.Center
     ) {
-        SwitchButton(
-            modifier = Modifier
-                .size(72.dp, 48.dp)
-                .semantics {
-                    contentDescription =
-                        if (isLight) "Switch to dark theme" else "Switch to light theme"
-                },
-            checked = !isLight,
-            onCheckedChange = { isLight = !isLight }
-        )
+        CompositionLocalProvider(LocalTheme provides if (isLight) ThoughtsTheme.lightPalette else ThoughtsTheme.darkPalette) {
+            content()
+        }
     }
     val animatedRadius = remember { Animatable(0f) }
     val (width, height) = with(LocalConfiguration.current) {
@@ -77,21 +93,10 @@ fun CircularRevealLayout(
     }
 }
 
-@Composable
-fun SwitchButton(
-    checked: Boolean,
-    modifier: Modifier = Modifier,
-    onCheckedChange: () -> Unit
-) {
-    Switch(
-        checked = checked,
-        modifier = modifier,
-        onCheckedChange = { onCheckedChange() }
-    )
-}
-
 @Preview(widthDp = 360, heightDp = 640)
 @Composable
 fun CircularRevealLayoutPreview() {
-    CircularRevealLayout()
+    ThoughtsTheme {
+        CircularRevealScreen()
+    }
 }
