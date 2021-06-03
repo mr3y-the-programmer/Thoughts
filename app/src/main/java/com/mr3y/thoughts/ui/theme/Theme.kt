@@ -1,10 +1,17 @@
 package com.mr3y.thoughts.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
+
+val LocalTheme = staticCompositionLocalOf<Colors> {
+    error("You must provide initial value for a theme before Using it")
+}
 
 private val DarkColorPalette = darkColors(
     primary = purple200,
@@ -35,10 +42,24 @@ fun ThoughtsTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composab
         LightColorPalette
     }
 
-    MaterialTheme(
-        colors = colors,
-        typography = typography,
-        shapes = shapes,
-        content = content
-    )
+    CompositionLocalProvider(LocalTheme provides colors) {
+        MaterialTheme(
+            colors = LocalTheme.current,
+            typography = typography,
+            shapes = shapes,
+            content = content
+        )
+    }
+}
+
+/**
+ * Theme Object to hold read-only properties of our theme such as:
+ * colors, elevation, typography...etc
+ */
+object ThoughtsTheme {
+    val lightPalette: Colors
+        get() = LightColorPalette
+
+    val darkPalette: Colors
+        get() = DarkColorPalette
 }
