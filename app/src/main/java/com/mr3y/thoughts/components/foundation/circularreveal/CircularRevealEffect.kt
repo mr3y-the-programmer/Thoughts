@@ -1,5 +1,7 @@
 package com.mr3y.thoughts.components.foundation.circularreveal
 
+import android.view.Window
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -19,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
@@ -27,15 +30,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mr3y.thoughts.ui.theme.LocalTheme
 import com.mr3y.thoughts.ui.theme.ThoughtsTheme
+import kotlinx.coroutines.launch
 import kotlin.math.hypot
 
 @Composable
-fun CircularRevealScreen() {
+fun CircularRevealScreen(
+    window: Window? = null
+) {
     val theme = LocalTheme.current
     var isLight by remember { mutableStateOf(theme == ThoughtsTheme.lightPalette) }
     CircularRevealLayout(
         modifier = Modifier.fillMaxSize(),
-        isLight = isLight
+        isLight = isLight,
+        window = window
     ) {
         Switch(
             checked = !isLight,
@@ -59,6 +66,7 @@ fun CircularRevealScreen() {
 fun CircularRevealLayout(
     isLight: Boolean,
     modifier: Modifier = Modifier,
+    window: Window? = null,
     content: @Composable () -> Unit
 ) {
     var radius by remember { mutableStateOf(0f) }
@@ -84,12 +92,19 @@ fun CircularRevealLayout(
         with(LocalDensity.current) { screenWidthDp.dp.toPx() to screenHeightDp.dp.toPx() }
     }
     val maxRadiusPx = hypot(width, height)
+    val systemBarsColor by animateColorAsState(targetValue = LocalTheme.current.primaryVariant)
     LaunchedEffect(isLight) {
-        animatedRadius.animateTo(maxRadiusPx, animationSpec = tween()) {
-            radius = value
+        launch {
+            animatedRadius.animateTo(maxRadiusPx, animationSpec = tween()) {
+                radius = value
+            }
+            // reset the initial value after finishing animation
+            animatedRadius.snapTo(0f)
         }
-        // reset the initial value after finishing animation
-        animatedRadius.snapTo(0f)
+        launch {
+            window?.statusBarColor = systemBarsColor.toArgb()
+            window?.navigationBarColor = systemBarsColor.toArgb()
+        }
     }
 }
 
