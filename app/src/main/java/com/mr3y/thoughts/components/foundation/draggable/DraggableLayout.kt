@@ -30,7 +30,8 @@ import androidx.compose.ui.unit.LayoutDirection
 
 // holds the index of each item in the layout
 @Immutable
-private inline class Index(val index: Int) : ParentDataModifier {
+@JvmInline
+private value class Index(val index: Int) : ParentDataModifier {
     override fun Density.modifyParentData(parentData: Any?): Any = this@Index
 }
 
@@ -150,8 +151,7 @@ internal fun DraggableLayout(
     }
 }
 
-// Uncomment once you've updated to kotlin 1.5
-/*sealed*/ interface DraggableLayoutScope {
+sealed interface DraggableLayoutScope {
     val currentItemIndex: Int
 }
 
