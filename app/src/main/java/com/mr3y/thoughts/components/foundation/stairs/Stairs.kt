@@ -70,12 +70,12 @@ fun StairsStep(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.DarkGray.copy(alpha = 0.15f))
-            .padding(end = 4.dp),
+            .background(Color.DarkGray.copy(alpha = 0.25f), shape = RoundedCornerShape(32.dp))
+            .padding(end = 8.dp),
         shape = RoundedCornerShape(16.dp),
         backgroundColor = Color.White,
         contentColor = Color.Black,
-        elevation = 4.dp,
+        elevation = 104.dp,
         border = BorderStroke(2.dp, Color.Black),
         content = {}
     )
