@@ -2,9 +2,11 @@
 My playground to play around with Jetpack compose
 
 ## Demo
-| [`Graph.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/Graph.kt) | Telegram-like Reveal Effect on toggling theme, see [`CircularRevealEffect.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/circularreveal/CircularRevealEffect.kt) | [`Stairs.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/stairs/Stairs.kt) |
+| [`RecursionLoop.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/recursion/RecursionLoop.kt) | Telegram-like Reveal Effect on toggling theme, see [`CircularRevealEffect.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/circularreveal/CircularRevealEffect.kt) | [`Stairs.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/stairs/Stairs.kt) |
 | :--- | :---: | ---: |
-| ![Graph Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/Graph.PNG) | ![Circular Reveal Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/circularreveal.gif) | ![Stairs Effect Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/stairs.gif) |
+| ![Recursion Loop](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/Recursion.gif) | ![Circular Reveal Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/circularreveal.gif) | ![Stairs Effect Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/stairs.gif) |
+| [`Graph.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/Graph.kt) |
+| ![Graph Demo](https://github.com/mr3y-the-programmer/Thoughts/blob/main/art/Graph.PNG) |
 
 ### WIP
 Also, there is a Work-in-progress DraggableColumn/Row  [`DraggableColumn.kt`](https://github.com/mr3y-the-programmer/Thoughts/blob/main/app/src/main/java/com/mr3y/thoughts/components/foundation/draggable/DraggableColumn.kt)
