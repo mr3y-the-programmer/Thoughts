@@ -8,15 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun rememberBottomBarState(selectedTabIndex: Int, numberOfTabs: Int = 5): BottomBarState {
-    val animateIn = rememberCoroutineScope()
-    return remember { BottomBarState(numberOfTabs, selectedTabIndex, animateIn) }
+fun rememberBottomBarState(numberOfTabs: Int, selectedTabIndex: Int, stateScope: CoroutineScope): BottomBarState {
+    return remember { BottomBarState(numberOfTabs, selectedTabIndex, stateScope) }
 }
 
 class BottomBarState @VisibleForTesting internal constructor(
