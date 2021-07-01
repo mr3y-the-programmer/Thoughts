@@ -29,6 +29,8 @@ object Dependencies {
 
     object Testing {
         const val JUNIT = "junit:junit:4.13.2"
+        const val Truth = "com.google.truth:truth:1.1.3"
+        const val Coroutine_Testing = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
 
         object AndroidX {
             const val JUNIT = "androidx.test.ext:junit:1.1.2"

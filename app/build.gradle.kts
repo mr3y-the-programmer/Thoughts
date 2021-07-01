@@ -69,6 +69,8 @@ dependencies {
     // to use Layout Inspector with jetpack compose
     debugImplementation(Deps.Kotlin.Reflect)
     testImplementation(Deps.Testing.JUNIT)
+    testImplementation(Deps.Testing.Truth)
+    testImplementation(Deps.Testing.Coroutine_Testing)
     androidTestImplementation(Deps.Compose.Test)
     androidTestImplementation(Deps.Testing.AndroidX.JUNIT)
     androidTestImplementation(Deps.Testing.AndroidX.Espresso)
