@@ -1,4 +1,4 @@
-package com.mr3y.thoughts.components.bottombar
+package com.mr3y.thoughts.components.bottombar.state
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.animation.core.Animatable

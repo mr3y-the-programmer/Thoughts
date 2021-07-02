@@ -2,6 +2,7 @@ package com.mr3y.thoughts.components.bottombar
 
 import androidx.compose.animation.core.spring
 import com.google.common.truth.Truth.assertThat
+import com.mr3y.thoughts.components.bottombar.state.BottomBarState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test

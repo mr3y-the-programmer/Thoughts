@@ -10,6 +10,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.karumi.shot.ScreenshotTest
+import com.mr3y.thoughts.components.bottombar.state.BottomBarLayout
+import com.mr3y.thoughts.components.bottombar.state.rememberBottomBarState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test

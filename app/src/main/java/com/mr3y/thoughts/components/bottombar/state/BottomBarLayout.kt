@@ -1,21 +1,14 @@
-package com.mr3y.thoughts.components.bottombar
+package com.mr3y.thoughts.components.bottombar.state
 
-import androidx.annotation.FloatRange
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.Measurable
-import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.layout.SubcomposeLayoutState
-import androidx.compose.ui.unit.Density
 import kotlin.math.roundToInt
 
 internal enum class BottomBarSlots {
@@ -87,30 +80,3 @@ internal fun BottomBarLayout(
         }
     }
 }
-
-@LayoutScopeMarker
-@Immutable
-interface BottomBarScope {
-
-    @Stable
-    fun Modifier.weight(@FloatRange(from = 0.1) weight: Float = 1.0f): Modifier
-}
-
-internal object BottomBarScopeImpl : BottomBarScope {
-
-    @Stable
-    override fun Modifier.weight(@FloatRange(from = 0.1) weight: Float): Modifier {
-        require(weight > 0.0) { "invalid weight $weight; must be greater than zero" }
-        return this.then(
-            BottomBarItemWeight(weight)
-        )
-    }
-}
-
-// TODO: should this be an inline class?
-data class BottomBarItemWeight(val weight: Float) : ParentDataModifier {
-    override fun Density.modifyParentData(parentData: Any?): Any = this@BottomBarItemWeight
-}
-
-private val Measurable.weight: Float
-    get() = (parentData as BottomBarItemWeight).weight

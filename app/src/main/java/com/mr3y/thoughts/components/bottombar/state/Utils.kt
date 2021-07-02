@@ -1,4 +1,4 @@
-package com.mr3y.thoughts.components.bottombar
+package com.mr3y.thoughts.components.bottombar.state
 
 internal typealias Ratio = Pair<Float, Float>
 

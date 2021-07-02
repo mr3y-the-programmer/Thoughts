@@ -1,6 +1,8 @@
 package com.mr3y.thoughts.components.bottombar
 
 import com.google.common.truth.Truth.assertThat
+import com.mr3y.thoughts.components.bottombar.state.Ratio
+import com.mr3y.thoughts.components.bottombar.state.partitionByRatio
 import org.junit.Test
 
 class UtilsTest {
