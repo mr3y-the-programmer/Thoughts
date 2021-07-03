@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.GraphicsLayerScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -35,24 +36,28 @@ class BottomBarState @VisibleForTesting internal constructor(
         }
     }
 
-    private var previousCurveTranslationX by mutableStateOf(0f)
+    private var previousCurveTranslationX by mutableStateOf(0)
 
-    internal var curveTranslationX by mutableStateOf(0f)
+    @VisibleForTesting
+    internal var currentCurveTranslationX by mutableStateOf(0)
         private set
 
-    private val animatedTranslationX = Animatable(previousCurveTranslationX, Float.VectorConverter)
+    private val animatedTranslationX = Animatable(previousCurveTranslationX, Int.VectorConverter)
 
-    fun translateToNewXPosition(newPosition: Float, animationSpec: AnimationSpec<Float>) {
+    fun animateCurveToPosition(index: Int, animationSpec: AnimationSpec<Int>) {
+        if (index == selectedTabIndex) return
+        val newPosition = (bottomBarLayoutMetadata.tabWidth * index)
+        selectedTabIndex = index
         val pos = newPosition - previousCurveTranslationX
-        if (pos == newPosition) {
-            previousCurveTranslationX = newPosition
-            return
-        }
         animationScope.launch {
             animatedTranslationX.animateTo(pos, animationSpec) {
-                curveTranslationX = this.value
+                currentCurveTranslationX = this.value
             }
-            previousCurveTranslationX = curveTranslationX
+            previousCurveTranslationX = currentCurveTranslationX
         }
+    }
+
+    internal fun curveGraphicsLayer(scope: GraphicsLayerScope) {
+        scope.translationX = currentCurveTranslationX.toFloat()
     }
 }

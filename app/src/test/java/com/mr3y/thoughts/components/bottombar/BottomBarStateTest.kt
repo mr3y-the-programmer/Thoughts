@@ -32,15 +32,25 @@ class BottomBarStateTest {
     }
 
     @Test
-    fun `position curve for the first time shouldn't trigger animation`() {
+    fun `animate the curve for current Index shouldn't trigger animation`() {
         val state = BottomBarState(5, 2, coroutineRule)
-        val newPos = 30f
+        val newSelectedIndex = 2
 
-        state.translateToNewXPosition(newPos, spring())
-        assertThat(state.curveTranslationX).isEqualTo(0f)
+        state.animateCurveToPosition(newSelectedIndex, spring())
+        assertThat(state.selectedTabIndex).isEqualTo(2)
+        assertThat(state.currentCurveTranslationX).isEqualTo(0)
 
-        // TODO: assert that prevPos is Equal to newPos
+        // TODO: assert that prevPos is Equal to 0
         // val prevPos = state::class.java.getField("previousCurveTranslationX") as Float
-        // assertThat(prevPos).isEqualTo(newPos)
+        // assertThat(prevPos).isEqualTo(0)
+    }
+
+    @Test
+    fun `animate the curve for new Index should trigger animation`() {
+        val state = BottomBarState(5, 2, coroutineRule)
+        val newSelectedIndex = 3
+
+        state.animateCurveToPosition(newSelectedIndex, spring())
+        assertThat(state.selectedTabIndex).isEqualTo(3)
     }
 }

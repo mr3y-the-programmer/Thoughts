@@ -1,8 +1,5 @@
 package com.mr3y.thoughts.components.bottombar.state
 
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,7 +28,6 @@ internal fun BottomBarLayout(
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     fab: @Composable BottomBarScope.() -> Unit,
     curve: @Composable BottomBarScope.() -> Unit,
-    curveAnimationSpec: AnimationSpec<Float>? = spring(Spring.DampingRatioLowBouncy),
     tab: @Composable BottomBarScope.(index: Int) -> Unit,
 ) {
     val bottomBarScope = BottomBarScopeImpl
@@ -48,7 +44,9 @@ internal fun BottomBarLayout(
         }
         // note that all tabs will be weighted equally
         val tabsWeight = tabMeasureables.map { it.weight }.sum()
-        val (curveWidth, tabsWidth) = parentConstraints.maxWidth.partitionByRatio(Ratio(curveMeasurable.weight, tabsWeight))
+        val (curveWidth, tabsWidth) = parentConstraints.maxWidth.partitionByRatio(
+            Ratio(curveMeasurable.weight, tabsWeight)
+        )
         val tabWidth = (tabsWidth / state.tabsNumExcludingCurve).roundToInt()
         val curveConstraints = parentConstraints
             .copy(minWidth = 0, maxWidth = curveWidth.roundToInt())
@@ -57,6 +55,10 @@ internal fun BottomBarLayout(
 
         val tabConstraints = parentConstraints.copy(minWidth = 0, maxWidth = tabWidth)
         val tabPlaceables = tabMeasureables.map { it.measure(tabConstraints) }
+        fillLayoutMetadata {
+            this.tabWidth = tabWidth
+            this.curveWidth = curvePlaceable.width
+        }
         layout(parentConstraints.maxWidth, parentConstraints.maxHeight) {
             var x = 0
             tabPlaceables.forEachIndexed { index, tab ->
@@ -69,13 +71,8 @@ internal fun BottomBarLayout(
             }
             // Layout the curve
             val curveAlignment = verticalAlignment.align(curvePlaceable.height, parentConstraints.maxHeight)
-            if (curveAnimationSpec != null) {
-                state.translateToNewXPosition((tabWidth * state.selectedTabIndex).toFloat(), curveAnimationSpec)
-                curvePlaceable.placeWithLayer((tabWidth * state.selectedTabIndex), 0) {
-                    translationX = state.curveTranslationX
-                }
-            } else {
-                curvePlaceable.place((tabWidth * state.selectedTabIndex), curveAlignment)
+            curvePlaceable.placeWithLayer((tabWidth * state.selectedTabIndex), curveAlignment) {
+                state.curveGraphicsLayer(this)
             }
         }
     }
