@@ -38,7 +38,8 @@ internal fun BottomBarLayout(
         }.first()
 
         val tabMeasureables = subcompose(BottomBarSlots.Tab) {
-            repeat(state.tabsNumExcludingCurve) { tabIndex ->
+            repeat(state.tabsNumExcludingCurve) { index ->
+                val tabIndex = index.mapToCorrespondingIndex(state.selectedTabIndex)
                 bottomBarScope.tab(tabIndex)
             }
         }

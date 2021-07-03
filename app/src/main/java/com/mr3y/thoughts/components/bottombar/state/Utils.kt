@@ -11,3 +11,11 @@ internal fun Int.partitionByRatio(ratio: Ratio): Pair<Float, Float> {
     val sum = ratio.first + ratio.second
     return Pair((ratio.first * this) / sum, (ratio.second * this) / sum)
 }
+
+/**
+ * By knowing the currently selected tab index we can associate each other tab with the correct index
+ */
+internal fun Int.mapToCorrespondingIndex(selectedIndex: Int) = when {
+    this < selectedIndex -> this
+    else -> this + 1
+}
