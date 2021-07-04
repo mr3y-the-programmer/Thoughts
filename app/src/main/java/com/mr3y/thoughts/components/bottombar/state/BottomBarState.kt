@@ -20,44 +20,44 @@ fun rememberBottomBarState(numberOfTabs: Int, selectedTabIndex: Int, stateScope:
 
 class BottomBarState @VisibleForTesting internal constructor(
     numberOfTabs: Int,
-    selectedTabIndex: Int,
+    selectedTab: Int,
     private val animationScope: CoroutineScope
 ) {
 
     internal var tabsNumExcludingCurve by mutableStateOf(numberOfTabs - 1)
         private set
 
-    internal var selectedTabIndex by mutableStateOf(selectedTabIndex)
+    internal var selectedTabIndex by mutableStateOf(selectedTab)
         private set
 
     init {
-        require(numberOfTabs > 2 && selectedTabIndex >= 0) {
-            "Invalid number of tabs: $numberOfTabs, or SelectedTabIndex: $selectedTabIndex argument"
+        require(numberOfTabs > 2 && selectedTab >= 0) {
+            "Invalid number of tabs: $numberOfTabs, or SelectedTabIndex: $selectedTab argument"
         }
     }
-
-    private var previousCurveTranslationX by mutableStateOf(0)
 
     @VisibleForTesting
     internal var currentCurveTranslationX by mutableStateOf(0)
         private set
 
-    private val animatedTranslationX = Animatable(previousCurveTranslationX, Int.VectorConverter)
+    private val animatedTranslationX = Animatable(0, Int.VectorConverter)
 
     fun animateCurveToPosition(index: Int, animationSpec: AnimationSpec<Int>) {
         if (index == selectedTabIndex) return
         val newPosition = (bottomBarLayoutMetadata.tabWidth * index)
         selectedTabIndex = index
-        val pos = newPosition - previousCurveTranslationX
         animationScope.launch {
-            animatedTranslationX.animateTo(pos, animationSpec) {
+            animatedTranslationX.animateTo(newPosition, animationSpec) {
                 currentCurveTranslationX = this.value
             }
-            previousCurveTranslationX = currentCurveTranslationX
         }
     }
 
     internal fun curveGraphicsLayer(scope: GraphicsLayerScope) {
-        scope.translationX = currentCurveTranslationX.toFloat()
+        scope.translationX = if (currentCurveTranslationX != 0) {
+            currentCurveTranslationX
+        } else {
+            bottomBarLayoutMetadata.tabWidth * selectedTabIndex
+        }.toFloat()
     }
 }

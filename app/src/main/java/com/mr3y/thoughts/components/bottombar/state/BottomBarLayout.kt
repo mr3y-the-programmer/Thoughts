@@ -72,7 +72,7 @@ internal fun BottomBarLayout(
             }
             // Layout the curve
             val curveAlignment = verticalAlignment.align(curvePlaceable.height, parentConstraints.maxHeight)
-            curvePlaceable.placeWithLayer((tabWidth * state.selectedTabIndex), curveAlignment) {
+            curvePlaceable.placeWithLayer(0, curveAlignment) {
                 state.curveGraphicsLayer(this)
             }
         }

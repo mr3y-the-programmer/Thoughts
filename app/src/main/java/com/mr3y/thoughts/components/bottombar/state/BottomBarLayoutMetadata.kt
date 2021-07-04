@@ -1,5 +1,8 @@
 package com.mr3y.thoughts.components.bottombar.state
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.MeasureScope
 
 /**
@@ -26,7 +29,7 @@ internal object BottomBarLayoutMetaDataImpl : BottomBarLayoutMetadata {
     override var curveHeight: Int = 0
 }
 
-internal var bottomBarLayoutMetadata: BottomBarLayoutMetadata = BottomBarLayoutMetaDataImpl
+internal var bottomBarLayoutMetadata: BottomBarLayoutMetadata by mutableStateOf(BottomBarLayoutMetaDataImpl)
     private set
 
 internal fun MeasureScope.fillLayoutMetadata(block: BottomBarLayoutMetadata.() -> Unit) {

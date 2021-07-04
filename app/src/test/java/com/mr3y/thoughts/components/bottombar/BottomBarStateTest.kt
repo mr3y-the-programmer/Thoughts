@@ -39,10 +39,6 @@ class BottomBarStateTest {
         state.animateCurveToPosition(newSelectedIndex, spring())
         assertThat(state.selectedTabIndex).isEqualTo(2)
         assertThat(state.currentCurveTranslationX).isEqualTo(0)
-
-        // TODO: assert that prevPos is Equal to 0
-        // val prevPos = state::class.java.getField("previousCurveTranslationX") as Float
-        // assertThat(prevPos).isEqualTo(0)
     }
 
     @Test
