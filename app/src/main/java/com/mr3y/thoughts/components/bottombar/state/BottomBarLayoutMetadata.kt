@@ -17,6 +17,10 @@ internal sealed interface BottomBarLayoutMetadata {
     var curveWidth: Int
 
     var curveHeight: Int
+
+    var fabWidth: Int
+
+    var fabHeight: Int
 }
 
 internal object BottomBarLayoutMetaDataImpl : BottomBarLayoutMetadata {
@@ -27,6 +31,10 @@ internal object BottomBarLayoutMetaDataImpl : BottomBarLayoutMetadata {
     override var curveWidth: Int = 0
 
     override var curveHeight: Int = 0
+
+    override var fabWidth: Int = 0
+
+    override var fabHeight: Int = 0
 }
 
 internal var bottomBarLayoutMetadata: BottomBarLayoutMetadata by mutableStateOf(BottomBarLayoutMetaDataImpl)

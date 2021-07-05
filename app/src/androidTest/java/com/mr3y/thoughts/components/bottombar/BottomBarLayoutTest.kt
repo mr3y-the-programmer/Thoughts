@@ -9,6 +9,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.unit.dp
 import com.karumi.shot.ScreenshotTest
 import com.mr3y.thoughts.components.bottombar.state.BottomBarLayout
 import com.mr3y.thoughts.components.bottombar.state.rememberBottomBarState
@@ -31,6 +32,7 @@ class BottomBarLayoutTest : ScreenshotTest {
             val state = rememberBottomBarState(numberOfTabs = 5, selectedTabIndex = 2, stateScope = coroutineRule)
             BottomBarLayout(
                 state = state,
+                bottomBarItemsHeight = 60.dp,
                 fab = { /*no-op for now*/ },
                 curve = {
                     DockedFABCurve(
