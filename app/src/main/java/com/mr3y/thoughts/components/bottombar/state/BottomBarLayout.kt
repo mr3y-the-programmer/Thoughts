@@ -66,20 +66,19 @@ internal fun BottomBarLayout(
         val tabPlaceables = tabMeasureables.map { it.measure(tabConstraints) }
 
         val fabHeight = (fabMeasurable.weight.coerceIn(0.1f..1f) * parentConstraints.maxHeight)
-        val fabConstraints = parentConstraints.copy(minWidth = 0, maxWidth = curveWidth.roundToInt(), minHeight = 0, maxHeight = fabHeight.roundToInt())
+        val fabConstraints = parentConstraints.copy(minWidth = 0, maxWidth = curvePlaceable.measuredWidth, minHeight = 0, maxHeight = fabHeight.roundToInt())
         val fabPlaceable = fabMeasurable.measure(fabConstraints)
-        // TODO: correct this to use measuredWidth instead of width
         fillLayoutMetadata {
             this.tabWidth = tabWidth
-            this.curveWidth = curvePlaceable.width
-            this.fabWidth = fabPlaceable.width
-            this.fabHeight = fabPlaceable.height
+            this.curveWidth = curvePlaceable.measuredWidth
+            this.fabWidth = fabPlaceable.measuredWidth
+            this.fabHeight = fabPlaceable.measuredHeight
         }
         layout(parentConstraints.maxWidth, parentConstraints.maxHeight) {
             var x = 0
             val itemsOffsetY = parentConstraints.maxHeight - itemsHeight
             tabPlaceables.forEachIndexed { index, tab ->
-                val tabAlignment = verticalAlignment.align(tab.height, itemsHeight)
+                val tabAlignment = verticalAlignment.align(tab.measuredHeight, itemsHeight)
                 tab.place(x, itemsOffsetY + tabAlignment)
                 x += when {
                     index == state.selectedTabIndex - 1 -> (tabWidth + curveConstraints.maxWidth)
@@ -87,7 +86,7 @@ internal fun BottomBarLayout(
                 }
             }
             // Layout the curve
-            val curveAlignment = verticalAlignment.align(curvePlaceable.height, itemsHeight)
+            val curveAlignment = verticalAlignment.align(curvePlaceable.measuredHeight, itemsHeight)
             curvePlaceable.placeWithLayer(0, itemsOffsetY + curveAlignment) {
                 state.curveGraphicsLayer(this)
             }
