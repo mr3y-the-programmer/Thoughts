@@ -4,6 +4,7 @@ import com.mr3y.thoughts.Dependencies as Deps
 
 plugins {
     id("com.android.application")
+    id("shot")
     kotlin("android")
 }
 
@@ -18,7 +19,7 @@ android {
         versionCode = MainCoordinates.VersionCode
         versionName = MainCoordinates.VersionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
     }
 
     buildTypes {
@@ -28,6 +29,15 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+    }
+
+    sourceSets {
+        getByName("androidTest") {
+            java.srcDirs("src/shared/java")
+        }
+        getByName("test") {
+            java.srcDirs("src/shared/java")
         }
     }
 
@@ -48,6 +58,7 @@ android {
     packagingOptions {
         resources {
             excludes += "META-INF/AL2.0"
+            excludes += "META-INF/LGPL2.1"
         }
     }
 
@@ -69,6 +80,8 @@ dependencies {
     // to use Layout Inspector with jetpack compose
     debugImplementation(Deps.Kotlin.Reflect)
     testImplementation(Deps.Testing.JUNIT)
+    testImplementation(Deps.Testing.Truth)
+    testImplementation(Deps.Testing.Coroutine_Testing)
     androidTestImplementation(Deps.Compose.Test)
     androidTestImplementation(Deps.Testing.AndroidX.JUNIT)
     androidTestImplementation(Deps.Testing.AndroidX.Espresso)
