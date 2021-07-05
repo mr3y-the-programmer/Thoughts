@@ -74,6 +74,7 @@ internal fun BottomBarLayout(
             this.fabWidth = fabPlaceable.measuredWidth
             this.fabHeight = fabPlaceable.measuredHeight
         }
+        val (curveLayer, fabLayer) = curveMeasurable.graphicsLayer to fabMeasurable.graphicsLayer
         layout(parentConstraints.maxWidth, parentConstraints.maxHeight) {
             var x = 0
             val itemsOffsetY = parentConstraints.maxHeight - itemsHeight
@@ -87,15 +88,11 @@ internal fun BottomBarLayout(
             }
             // Layout the curve
             val curveAlignment = verticalAlignment.align(curvePlaceable.measuredHeight, itemsHeight)
-            curvePlaceable.placeWithLayer(0, itemsOffsetY + curveAlignment) {
-                state.curveGraphicsLayer(this)
-            }
+            curvePlaceable.placeWithLayer(0, itemsOffsetY + curveAlignment, layerBlock = curveLayer)
             // Layout the fab
             val fabHorizontalAlignment = Alignment.CenterHorizontally
                 .align(fabPlaceable.measuredWidth, curvePlaceable.measuredWidth, layoutDirection)
-            fabPlaceable.placeWithLayer(fabHorizontalAlignment, 0) {
-                state.curveGraphicsLayer(this)
-            }
+            fabPlaceable.placeWithLayer(fabHorizontalAlignment, 0, layerBlock = fabLayer)
         }
     }
 }

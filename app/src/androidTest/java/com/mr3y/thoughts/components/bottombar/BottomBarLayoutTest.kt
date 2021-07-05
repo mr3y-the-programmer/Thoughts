@@ -23,13 +23,10 @@ class BottomBarLayoutTest : ScreenshotTest {
     @get:Rule
     val composeRule = createComposeRule()
 
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
-
     @Test
     fun testAllItemsDisplayed_asExpected() {
         composeRule.setContent {
-            val state = rememberBottomBarState(numberOfTabs = 5, selectedTabIndex = 2, stateScope = coroutineRule)
+            val state = rememberBottomBarState(numberOfTabs = 5, selectedTabIndex = 2)
             BottomBarLayout(
                 state = state,
                 bottomBarItemsHeight = 60.dp,
